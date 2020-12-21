@@ -31,7 +31,7 @@ class TestPushRoute: Route{
     }
     
     func create(_ router: AppRouter, _ params: [String : Any]?) -> UIViewController {
-        return MockViewController(router: router)
+        return MockViewController()
     }
     
 }

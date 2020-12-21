@@ -35,7 +35,7 @@ class TestPresentRoute: Route{
     
     func create(_ router: AppRouter, _ params: [String : Any]?) -> UIViewController {
         self.params = params
-        return MockViewController(router: router)
+        return MockViewController()
     }
     
 }

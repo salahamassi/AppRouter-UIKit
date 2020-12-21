@@ -191,17 +191,6 @@ final class AppRouterTests: XCTestCase {
         wait(for: [expectation], timeout: 5)
     }
     
-    func test_injectAppRouteToViewController(){
-        // given
-        let sut = makeSut()
-        
-        // when
-        sut.navigate(to: TestPresentRoute(), with: nil, completion: nil)
-        
-        //then
-        XCTAssertNotNil((sut.window.rootViewController?.presentedViewController as? MockViewController)?.router)
-    }
-    
     private weak var weakSUT: AppRouterMock?
     
     override func tearDown() {
@@ -217,5 +206,5 @@ final class AppRouterTests: XCTestCase {
         weakSUT = router
         return router
     }
-
+    
 }
