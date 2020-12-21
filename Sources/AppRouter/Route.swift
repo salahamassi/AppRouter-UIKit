@@ -18,3 +18,23 @@ public protocol Route {
     func create(_ router: AppRouter, _ params: [String: Any]?) -> UIViewController
     
 }
+
+extension Route{
+    
+    var modalPresentationStyle: UIModalPresentationStyle{
+        .none
+    }
+    
+    var animatedTransitioningDelegate: UIViewControllerTransitioningDelegate?{
+        nil
+    }
+
+    var pushTransition: CATransition?{
+        nil
+    }
+    
+    var animated: Bool{
+        true
+    }
+    
+}
