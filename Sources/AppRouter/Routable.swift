@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Routable {
+public protocol Routable {
     
     var router: AppRouter? { get }
     
