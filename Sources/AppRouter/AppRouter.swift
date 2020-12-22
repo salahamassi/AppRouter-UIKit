@@ -26,6 +26,8 @@ public class AppRouter{
                 return navigationController
             }else if let navigationController = window.rootViewController as? UINavigationController{
                 return navigationController
+            }else if let navigationController = window.rootViewController?.children.first(where: { $0 is UINavigationController }) as? UINavigationController{
+                return navigationController
             }else{
                 fatalError("there are no navigation controller")
             }
