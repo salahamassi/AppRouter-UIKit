@@ -11,18 +11,21 @@ public class AppRouter{
     
     public let window: UIWindow
     
+    
     var navigationController: UINavigationController{
         get{
-            if let presentedViewController = presentedViewController as? UINavigationController{
-                return presentedViewController
+            if let navigationController = presentedViewController as? UINavigationController{
+                return navigationController
             }else if let tabBarController = presentedViewController as? UITabBarController,
-                     let selectedViewController = tabBarController.selectedViewController as? UINavigationController{
-                return selectedViewController
+                     let navigationController = tabBarController.selectedViewController as? UINavigationController{
+                return navigationController
             }else if let tabBarController = presentedViewController.children.first(where: { $0 is UITabBarController }) as? UITabBarController,
-                     let selectedViewController = tabBarController.selectedViewController as? UINavigationController{
-                return selectedViewController
-            }else if let rootViewController = presentedViewController.children.first(where: { $0 is UINavigationController }) as? UINavigationController{
-                return rootViewController
+                     let navigationController = tabBarController.selectedViewController as? UINavigationController{
+                return navigationController
+            }else if let navigationController = presentedViewController.children.first(where: { $0 is UINavigationController }) as? UINavigationController{
+                return navigationController
+            }else if let navigationController = window.rootViewController as? UINavigationController{
+                return navigationController
             }else{
                 fatalError("there are no navigation controller")
             }
