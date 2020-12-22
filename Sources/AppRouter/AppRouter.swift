@@ -13,10 +13,15 @@ public class AppRouter{
     
     var navigationController: UINavigationController{
         get{
-            guard let rootViewController = window.rootViewController else { fatalError("rootViewController cann't be nil") }
-            if let rootViewController = rootViewController as? UINavigationController{
-                return rootViewController
-            }else if let rootViewController = window.rootViewController?.children.last as? UINavigationController{
+            if let presentedViewController = presentedViewController as? UINavigationController{
+                return presentedViewController
+            }else if let tabBarController = presentedViewController as? UITabBarController,
+                     let selectedViewController = tabBarController.selectedViewController as? UINavigationController{
+                return selectedViewController
+            }else if let tabBarController = presentedViewController.children.first(where: { $0 is UITabBarController }) as? UITabBarController,
+                     let selectedViewController = tabBarController.selectedViewController as? UINavigationController{
+                return selectedViewController
+            }else if let rootViewController = presentedViewController.children.first(where: { $0 is UINavigationController }) as? UINavigationController{
                 return rootViewController
             }else{
                 fatalError("there are no navigation controller")
@@ -27,10 +32,10 @@ public class AppRouter{
     var presentedViewController: UIViewController{
         get{
             guard let rootViewController = window.rootViewController else { fatalError("rootViewController cann't be nil") }
-            return rootViewController.presentedViewController == nil ? rootViewController : rootViewController.presentedViewController!
+            return presentedViewController(rootViewController)
         }
     }
-        
+    
     public init(window: UIWindow, rootViewController: UIViewController? = nil) {
         self.window = window
         if let rootViewController = rootViewController{
@@ -97,7 +102,7 @@ public class AppRouter{
     }
     
     public func dismiss(animated: Bool = true, completion: (() -> Void)? = nil){
-       presentedViewController.dismiss(animated: animated, completion: completion)
+        presentedViewController.dismiss(animated: animated, completion: completion)
     }
     
     public func removeAllAndKeep(types: [AnyClass], animated: Bool = true){
@@ -118,4 +123,11 @@ public class AppRouter{
         navigationController.setViewControllers(viewControllers, animated: animated)
     }
     
+    private func presentedViewController(_ viewController: UIViewController) -> UIViewController{
+        if let mPresentedViewController = viewController.presentedViewController{
+            return presentedViewController(mPresentedViewController)
+        }else{
+            return viewController
+        }
+    }
 }
