@@ -12,7 +12,7 @@ public class AppRouter{
     public let window: UIWindow
     
     
-    var navigationController: UINavigationController{
+    public var navigationController: UINavigationController{
         get{
             if let navigationController = presentedViewController as? UINavigationController{
                 return navigationController
@@ -34,7 +34,7 @@ public class AppRouter{
         }
     }
     
-    var presentedViewController: UIViewController{
+    public var presentedViewController: UIViewController{
         get{
             guard let rootViewController = window.rootViewController else { fatalError("rootViewController cann't be nil") }
             return presentedViewController(rootViewController)
