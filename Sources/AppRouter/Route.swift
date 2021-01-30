@@ -14,9 +14,7 @@ public protocol Route {
     var pushTransition: CATransition? { get }
     var animated: Bool { get }
 
-    
     func create(_ router: AppRouter, _ params: [String: Any]?) -> UIViewController
-    
 }
 
 public extension Route {
@@ -36,5 +34,4 @@ public extension Route {
     var animated: Bool{
         true
     }
-    
 }
