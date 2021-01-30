@@ -7,34 +7,35 @@
 
 import UIKit
 
-public typealias StoryboardViewController = (storyBoardName: String, viewControllerIdentifier: String)
 
-private struct RouteFactory<T: UIViewController>: Route where T: Routable {
+public struct RouteFactory<T: UIViewController>: Route where T: Routable {
     
-    var navigateType: NavigateType {
-        mNavigateType
-    }
+    public typealias StoryboardViewController = (storyBoardName: String, viewControllerIdentifier: String)
     
-    var animated: Bool {
-        mAnimated
-    }
+    private let mNavigateType: NavigateType
+    private let mAnimated: Bool
+    private let storyboardViewController: StoryboardViewController?
+    private let nibName: String?
     
-    let mNavigateType: NavigateType
-    let mAnimated: Bool
-    let storyboardViewController: StoryboardViewController?
-    let nibName: String?
-    
-    init(navigateType: NavigateType,
-         animated: Bool,
-         storyboardViewController: StoryboardViewController?,
-         nibName: String?) {
+    private init(navigateType: NavigateType,
+                 animated: Bool,
+                 storyboardViewController: StoryboardViewController?,
+                 nibName: String?) {
         self.mNavigateType = navigateType
         self.mAnimated = animated
         self.storyboardViewController = storyboardViewController
         self.nibName = nibName
     }
     
-    func create(_ router: AppRouter, _ params: [String : Any]?) -> UIViewController {
+    public var navigateType: NavigateType {
+        mNavigateType
+    }
+    
+    public var animated: Bool {
+        mAnimated
+    }
+    
+    public func create(_ router: AppRouter, _ params: [String : Any]?) -> UIViewController {
         let viewController: UIViewController
         if let storyboardViewController = storyboardViewController {
             let bundle = Bundle(for: T.self)
@@ -48,19 +49,15 @@ private struct RouteFactory<T: UIViewController>: Route where T: Routable {
         }
         return viewController
     }
-}
-
-public extension Route {
-
-    static func createRoute<T: UIViewController>(_ type: T,
-                                                   storyboardViewController: StoryboardViewController? = nil,
-                                                   nibName: String? = nil,
-                                                   navigateType: NavigateType,
-                                                   animated: Bool) -> Route  where T: Routable {
+    
+    public static func createRoute<T: UIViewController & Routable>(
+                                                        storyboardViewController: StoryboardViewController? = nil,
+                                                        nibName: String? = nil,
+                                                        navigateType: NavigateType,
+                                                        animated: Bool = false) -> RouteFactory<T> {
         RouteFactory<T>(navigateType: navigateType,
                         animated: animated,
                         storyboardViewController: storyboardViewController,
                         nibName: nibName)
     }
 }
-

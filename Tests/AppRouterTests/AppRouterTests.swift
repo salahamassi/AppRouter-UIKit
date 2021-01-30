@@ -175,6 +175,19 @@ final class AppRouterTests: XCTestCase {
         XCTAssertNotNil(sut.dismissCompletion)
     }
     
+    func test_routeFactoryWindowRoot() {
+        // given
+        let sut = makeSut()
+        
+        // when
+        let route: RouteFactory<MockViewController> = RouteFactory.createRoute(navigateType: .windowRoot)
+        sut.navigate(to: route, with: nil, completion: nil)
+                
+        //then
+        XCTAssertNotNil(sut.window.rootViewController)
+        XCTAssertTrue(type(of: sut.window.rootViewController!) == MockViewController.self)
+    }
+    
     private weak var weakSUT: AppRouterMock?
     
     override func tearDown() {
