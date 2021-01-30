@@ -10,7 +10,7 @@ import UIKit
 public class AppRouter {
     
     public let window: UIWindow
-    
+    public var canDuplicateViewControllers = true
     
     public var navigationController: UINavigationController {
         get{
@@ -71,7 +71,15 @@ public class AppRouter {
         if let pushTransition = pushTransition{
             navigationController.view.layer.add(pushTransition, forKey: kCATransition)
         }
-        navigationController.pushViewController(viewController, animated: animated)
+        if !canDuplicateViewControllers {
+            let children = navigationController.viewControllers.map(\.className)
+            if !children.contains(viewController.className) {
+                navigationController.pushViewController(viewController, animated: animated)
+
+            }
+        }else{
+            navigationController.pushViewController(viewController, animated: animated)
+        }
     }
     
     private func replaceWindowRoot(with viewController: UIViewController) {
@@ -94,16 +102,18 @@ public class AppRouter {
     }
     
     public func pop(numberOfScreens: Int, popTransition: CATransition? = nil, animated: Bool = true) {
-        precondition(numberOfScreens + 1 <= navigationController.viewControllers.count)
-        if let popTransition = popTransition{
-            navigationController.view.layer.add(popTransition, forKey: kCATransition)
+        if numberOfScreens <= navigationController.viewControllers.count - 1 {
+            if let popTransition = popTransition{
+                navigationController.view.layer.add(popTransition, forKey: kCATransition)
+            }
+            navigationController.popToViewController(navigationController.viewControllers[navigationController.viewControllers.count - (numberOfScreens + 1)], animated: animated)
         }
-        navigationController.popToViewController(navigationController.viewControllers[navigationController.viewControllers.count - (numberOfScreens + 1)], animated: animated)
     }
     
     public func remove(numberOfScreens: Int){
-        precondition(numberOfScreens + 1 <= navigationController.viewControllers.count)
-        navigationController.viewControllers.removeSubrange(1...numberOfScreens)
+        if numberOfScreens <= navigationController.viewControllers.count - 1 {
+            navigationController.viewControllers.removeSubrange(1...numberOfScreens)
+        }
     }
     
     public func dismiss(animated: Bool = true, completion: (() -> Void)? = nil) {

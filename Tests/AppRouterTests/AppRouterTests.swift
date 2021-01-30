@@ -187,6 +187,26 @@ final class AppRouterTests: XCTestCase {
         XCTAssertTrue(sut.window.rootViewController is MockViewController)
     }
     
+    func test_canntDuplicateViewControllers_pushSameThreeViewController_shouldCountEqualOne() {
+        // given
+        let rootViewController = UINavigationController()
+        let sut = makeSut(rootViewController: rootViewController)
+
+        // when
+        sut.canDuplicateViewControllers = false
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        let expectation = XCTestExpectation(description: "pop number of view controllers success")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            XCTAssertEqual(rootViewController.viewControllers.count, 1)
+            expectation.fulfill()
+        }
+        
+        //then
+        wait(for: [expectation], timeout: 5)
+    }
+    
     private weak var weakSUT: AppRouterMock?
     
     override func tearDown() {
