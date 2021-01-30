@@ -174,23 +174,6 @@ final class AppRouterTests: XCTestCase {
         XCTAssertNotNil(sut.dismissCompletion)
     }
     
-    func test_dismissViewController(){
-        //given
-        let sut = makeSut()
-        sut.navigate(to: TestPresentRoute(), with: nil, completion: nil)
-        
-        // when
-        let expectation = XCTestExpectation(description: "dismiss view controller success")
-        sut.dismiss(animated: false, completion: {
-            sut.dismissCompletion = nil // we need to make dismissCompletion to avoid memory leak during test
-            XCTAssertNil(sut.window.rootViewController?.presentedViewController)
-            expectation.fulfill()
-        })
-        
-        //then
-        wait(for: [expectation], timeout: 5)
-    }
-    
     private weak var weakSUT: AppRouterMock?
     
     override func tearDown() {
