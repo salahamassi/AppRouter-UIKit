@@ -15,12 +15,21 @@ private struct RouteFactory<T: UIViewController>: Route where T: Routable {
         mNavigateType
     }
     
+    var animated: Bool {
+        mAnimated
+    }
+    
     let mNavigateType: NavigateType
+    let mAnimated: Bool
     let storyboardViewController: StoryboardViewController?
     let nibName: String?
     
-    init(navigateType: NavigateType, storyboardViewController: StoryboardViewController?, nibName: String?) {
+    init(navigateType: NavigateType,
+         animated: Bool,
+         storyboardViewController: StoryboardViewController?,
+         nibName: String?) {
         self.mNavigateType = navigateType
+        self.mAnimated = animated
         self.storyboardViewController = storyboardViewController
         self.nibName = nibName
     }
@@ -46,8 +55,12 @@ public extension Route {
     static func createRoute<T: UIViewController>(_ type: T,
                                                    storyboardViewController: StoryboardViewController? = nil,
                                                    nibName: String? = nil,
-                                                   navigateType: NavigateType) -> Route  where T: Routable {
-        RouteFactory<T>(navigateType: navigateType, storyboardViewController: storyboardViewController, nibName: nibName)
+                                                   navigateType: NavigateType,
+                                                   animated: Bool) -> Route  where T: Routable {
+        RouteFactory<T>(navigateType: navigateType,
+                        animated: animated,
+                        storyboardViewController: storyboardViewController,
+                        nibName: nibName)
     }
 }
 
