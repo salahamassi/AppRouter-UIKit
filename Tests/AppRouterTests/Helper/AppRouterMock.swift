@@ -24,5 +24,4 @@ class AppRouterMock: AppRouter {
         super.dismiss(animated: animated, completion: completion)
         self.dismissCompletion = completion
     }
-
 }
