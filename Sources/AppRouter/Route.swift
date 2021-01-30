@@ -19,7 +19,7 @@ public protocol Route {
     
 }
 
-public extension Route{
+public extension Route {
     
     var modalPresentationStyle: UIModalPresentationStyle{
         .none

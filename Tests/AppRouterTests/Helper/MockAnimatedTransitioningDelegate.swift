@@ -7,4 +7,4 @@
 
 import UIKit
 
-class MockAnimatedTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate{}
+class MockAnimatedTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {}

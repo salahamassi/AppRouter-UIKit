@@ -7,6 +7,6 @@
 
 import Foundation
 
-public enum NavigateType{
+public enum NavigateType {
     case present, push, windowRoot
 }

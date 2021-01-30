@@ -7,12 +7,12 @@
 
 import UIKit
 
-public class AppRouter{
+public class AppRouter {
     
     public let window: UIWindow
     
     
-    public var navigationController: UINavigationController{
+    public var navigationController: UINavigationController {
         get{
             if let navigationController = presentedViewController as? UINavigationController{
                 return navigationController
@@ -34,7 +34,7 @@ public class AppRouter{
         }
     }
     
-    public var presentedViewController: UIViewController{
+    public var presentedViewController: UIViewController {
         get{
             guard let rootViewController = window.rootViewController else { fatalError("rootViewController cann't be nil") }
             return presentedViewController(rootViewController)
@@ -49,7 +49,7 @@ public class AppRouter{
         }
     }
     
-    public func navigate(to route: Route, with params: [String: Any]?, completion: (() -> Void)?){
+    public func navigate(to route: Route, with params: [String: Any]?, completion: (() -> Void)?) {
         let viewController = route.create(self, params)
         switch route.navigateType {
         case .present:
@@ -61,39 +61,39 @@ public class AppRouter{
         }
     }
     
-    private func presentViewController(_ viewController: UIViewController, presentationStyle: UIModalPresentationStyle, transitioningDelegate: UIViewControllerTransitioningDelegate?, animated: Bool, completion: (() -> Void)?){
+    private func presentViewController(_ viewController: UIViewController, presentationStyle: UIModalPresentationStyle, transitioningDelegate: UIViewControllerTransitioningDelegate?, animated: Bool, completion: (() -> Void)?) {
         viewController.modalPresentationStyle = presentationStyle
         viewController.transitioningDelegate = transitioningDelegate
         presentedViewController.present(viewController, animated: animated, completion: completion)
     }
     
-    private func pushViewController(_ viewController: UIViewController, pushTransition: CATransition? = nil, animated: Bool = true){
+    private func pushViewController(_ viewController: UIViewController, pushTransition: CATransition? = nil, animated: Bool = true) {
         if let pushTransition = pushTransition{
             navigationController.view.layer.add(pushTransition, forKey: kCATransition)
         }
         navigationController.pushViewController(viewController, animated: animated)
     }
     
-    private func replaceWindowRoot(with viewController: UIViewController){
+    private func replaceWindowRoot(with viewController: UIViewController) {
         window.rootViewController = viewController
         window.makeKeyAndVisible()
     }
     
-    public func popViewController(popTransition: CATransition? = nil, animated: Bool = true){
+    public func popViewController(popTransition: CATransition? = nil, animated: Bool = true) {
         if let popTransition = popTransition{
             navigationController.view.layer.add(popTransition, forKey: kCATransition)
         }
         navigationController.popViewController(animated: animated)
     }
     
-    public func popToRootViewController(popTransition: CATransition? = nil, animated: Bool = true){
+    public func popToRootViewController(popTransition: CATransition? = nil, animated: Bool = true) {
         if let popTransition = popTransition{
             navigationController.view.layer.add(popTransition, forKey: kCATransition)
         }
         navigationController.popToRootViewController(animated: animated)
     }
     
-    public func pop(numberOfScreens: Int, popTransition: CATransition? = nil, animated: Bool = true){
+    public func pop(numberOfScreens: Int, popTransition: CATransition? = nil, animated: Bool = true) {
         precondition(numberOfScreens + 1 <= navigationController.viewControllers.count)
         if let popTransition = popTransition{
             navigationController.view.layer.add(popTransition, forKey: kCATransition)
@@ -106,11 +106,11 @@ public class AppRouter{
         navigationController.viewControllers.removeSubrange(1...numberOfScreens)
     }
     
-    public func dismiss(animated: Bool = true, completion: (() -> Void)? = nil){
+    public func dismiss(animated: Bool = true, completion: (() -> Void)? = nil) {
         presentedViewController.dismiss(animated: animated, completion: completion)
     }
     
-    public func removeAllAndKeep(types: [AnyClass], animated: Bool = true){
+    public func removeAllAndKeep(types: [AnyClass], animated: Bool = true) {
         var viewControllers = navigationController.viewControllers
         viewControllers.removeAll { (viewController) -> Bool in
             let viewControllerType = type(of: viewController)
@@ -119,7 +119,7 @@ public class AppRouter{
         navigationController.setViewControllers(viewControllers, animated: animated)
     }
     
-    public func remove(types: [AnyClass], animated: Bool = true){
+    public func remove(types: [AnyClass], animated: Bool = true) {
         var viewControllers = navigationController.viewControllers
         viewControllers.removeAll { (viewController) -> Bool in
             let viewControllerType = type(of: viewController)
@@ -128,7 +128,7 @@ public class AppRouter{
         navigationController.setViewControllers(viewControllers, animated: animated)
     }
     
-    private func presentedViewController(_ viewController: UIViewController) -> UIViewController{
+    private func presentedViewController(_ viewController: UIViewController) -> UIViewController {
         if let mPresentedViewController = viewController.presentedViewController{
             return presentedViewController(mPresentedViewController)
         }else{

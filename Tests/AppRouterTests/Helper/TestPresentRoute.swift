@@ -8,25 +8,25 @@
 import UIKit
 import AppRouter
 
-class TestPresentRoute: Route{
+class TestPresentRoute: Route {
     
-    var modalPresentationStyle: UIModalPresentationStyle{
+    var modalPresentationStyle: UIModalPresentationStyle {
         .custom
     }
     
-    var animatedTransitioningDelegate: UIViewControllerTransitioningDelegate?{
+    var animatedTransitioningDelegate: UIViewControllerTransitioningDelegate? {
         MockAnimatedTransitioningDelegate()
     }
     
-    var navigateType: NavigateType{
+    var navigateType: NavigateType {
         .present
     }
     
-    var pushTransition: CATransition?{
+    var pushTransition: CATransition? {
         nil
     }
     
-    var animated: Bool{
+    var animated: Bool {
         false
     }
     
@@ -37,5 +37,4 @@ class TestPresentRoute: Route{
         self.params = params
         return MockViewController()
     }
-    
 }

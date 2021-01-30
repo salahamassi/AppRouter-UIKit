@@ -8,30 +8,29 @@
 import UIKit
 import AppRouter
 
-class TestWindowRootRoute: Route{
+class TestWindowRootRoute: Route {
     
-    var modalPresentationStyle: UIModalPresentationStyle{
+    var modalPresentationStyle: UIModalPresentationStyle {
         .none
     }
     
-    var animatedTransitioningDelegate: UIViewControllerTransitioningDelegate?{
+    var animatedTransitioningDelegate: UIViewControllerTransitioningDelegate? {
         nil
     }
     
-    var navigateType: NavigateType{
+    var navigateType: NavigateType {
         .windowRoot
     }
     
-    var pushTransition: CATransition?{
+    var pushTransition: CATransition? {
         nil
     }
     
-    var animated: Bool{
+    var animated: Bool {
         false
     }
     
     func create(_ router: AppRouter, _ params: [String : Any]?) -> UIViewController {
         return MockViewController()
     }
-    
 }

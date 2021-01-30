@@ -11,7 +11,7 @@ public typealias StoryboardViewController = (storyBoardName: String, viewControl
 
 private struct RouteFactory<T: UIViewController>: Route where T: Routable {
     
-    var navigateType: NavigateType{
+    var navigateType: NavigateType {
         mNavigateType
     }
     
@@ -27,7 +27,7 @@ private struct RouteFactory<T: UIViewController>: Route where T: Routable {
     
     func create(_ router: AppRouter, _ params: [String : Any]?) -> UIViewController {
         let viewController: UIViewController
-        if let storyboardViewController = storyboardViewController{
+        if let storyboardViewController = storyboardViewController {
             let bundle = Bundle(for: T.self)
             let storyboard = UIStoryboard(name: storyboardViewController.storyBoardName, bundle: bundle)
             viewController = storyboard.instantiateViewController(withIdentifier: storyboardViewController.storyBoardName)

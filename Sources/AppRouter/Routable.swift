@@ -10,5 +10,4 @@ import Foundation
 public protocol Routable {
     
     var router: AppRouter? { get }
-    
 }

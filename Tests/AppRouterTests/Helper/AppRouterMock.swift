@@ -20,9 +20,9 @@ class AppRouterMock: AppRouter {
         self.completion = completion
     }
     
-    override func dismiss(animated: Bool = true ,completion: (() -> Void)? = nil){
+    override func dismiss(animated: Bool = true ,completion: (() -> Void)? = nil) {
         super.dismiss(animated: animated, completion: completion)
         self.dismissCompletion = completion
     }
-    
+
 }
