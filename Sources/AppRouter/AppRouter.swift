@@ -73,9 +73,11 @@ public class AppRouter {
         }
         if !canDuplicateViewControllers {
             let children = navigationController.viewControllers.map(\.className)
-            if !children.contains(viewController.className) {
-                navigationController.pushViewController(viewController, animated: animated)
+            print("animated \(animated)")
 
+            if !children.contains(viewController.className) {
+                print("\(viewController.className)")
+                navigationController.pushViewController(viewController, animated: animated)
             }
         }else{
             navigationController.pushViewController(viewController, animated: animated)
