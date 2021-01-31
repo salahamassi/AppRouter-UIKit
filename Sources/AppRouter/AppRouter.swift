@@ -11,6 +11,8 @@ public class AppRouter {
     
     public let window: UIWindow
     public var canDuplicateViewControllers = true
+    /// you must set this value in navigation controller delegate willShow viewController
+    public var lastPushedViewController: UIViewController? = nil
     
     public var navigationController: UINavigationController {
         get{
@@ -71,15 +73,7 @@ public class AppRouter {
         if let pushTransition = pushTransition{
             navigationController.view.layer.add(pushTransition, forKey: kCATransition)
         }
-        if !canDuplicateViewControllers {
-            let children = navigationController.viewControllers.map(\.className)
-            print("animated \(animated)")
-
-            if !children.contains(viewController.className) {
-                print("\(viewController.className)")
-                navigationController.pushViewController(viewController, animated: animated)
-            }
-        }else{
+        if canPushViewController(viewController) {
             navigationController.pushViewController(viewController, animated: animated)
         }
     }
@@ -145,6 +139,21 @@ public class AppRouter {
             return presentedViewController(mPresentedViewController)
         }else{
             return viewController
+        }
+    }
+    
+    private func canPushViewController(_ viewController: UIViewController) -> Bool {
+        if !canDuplicateViewControllers {
+            let children = navigationController.children.map(\.className)
+            if children.contains(viewController.className) {
+                return false // view controller already in the stack
+            }else if let lastPushedViewController = lastPushedViewController, type(of: lastPushedViewController) == type(of: viewController){
+                return false // in case the view controller not in the stack but lastPushedViewController type eqault to viewController type
+            }else {
+                return true // we can push the new viewController safely
+            }
+        }else{
+            return true // i don't care about duplications just return true
         }
     }
 }

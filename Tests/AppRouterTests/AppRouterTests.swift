@@ -150,7 +150,7 @@ final class AppRouterTests: XCTestCase {
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
-        let expectation = XCTestExpectation(description: "pop number of view controllers success")
+        let expectation = XCTestExpectation(description: "push three view controller then remove number of screens success")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             sut.remove(numberOfScreens: 2)
             XCTAssertEqual(rootViewController.viewControllers.count, 1)
@@ -197,7 +197,7 @@ final class AppRouterTests: XCTestCase {
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
-        let expectation = XCTestExpectation(description: "pop number of view controllers success")
+        let expectation = XCTestExpectation(description: "navigationController.children == 1")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             XCTAssertEqual(sut.navigationController.children.count, 1)
             expectation.fulfill()
