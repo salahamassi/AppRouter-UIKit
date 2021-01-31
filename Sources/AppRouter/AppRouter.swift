@@ -150,6 +150,7 @@ public class AppRouter {
             }else if let lastPushedViewController = lastPushedViewController, type(of: lastPushedViewController) == type(of: viewController){
                 return false // in case the view controller not in the stack but lastPushedViewController type eqault to viewController type
             }else {
+                lastPushedViewController = viewController
                 return true // we can push the new viewController safely
             }
         }else{
