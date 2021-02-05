@@ -207,6 +207,27 @@ final class AppRouterTests: XCTestCase {
         wait(for: [expectation], timeout: 5)
     }
     
+    func test_cantDuplicateViewControllers_pushSameVCTwoTimeNotSequentially_shouldCountEqualThree() {
+        // given
+        let rootViewController = UINavigationController()
+        let sut = makeSut(rootViewController: rootViewController)
+
+        // when
+        sut.canDuplicateViewControllers = false
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        sut.navigate(to: RouteFactory.createRoute(navigateType: .push), with: nil, completion: nil)
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        let expectation = XCTestExpectation(description: "navigationController.children == 3")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            XCTAssertEqual(sut.navigationController.children.count, 3)
+            expectation.fulfill()
+        }
+        
+        //then
+        wait(for: [expectation], timeout: 5)
+    }
+
+    
     private weak var weakSUT: AppRouterMock?
     
     override func tearDown() {
