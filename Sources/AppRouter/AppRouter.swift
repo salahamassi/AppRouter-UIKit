@@ -145,7 +145,7 @@ public class AppRouter {
     private func canPushViewController(_ viewController: UIViewController) -> Bool {
         if !canDuplicateViewControllers {
             let children = navigationController.children.map(\.className)
-            if children.contains(viewController.className) {
+            if children.last?.className == viewController.className {
                 return false // view controller already in the stack
             }else if let lastPushedViewController = lastPushedViewController, type(of: lastPushedViewController) == type(of: viewController){
                 return false // in case the view controller not in the stack but lastPushedViewController type eqault to viewController type
