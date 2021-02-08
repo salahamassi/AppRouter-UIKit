@@ -79,8 +79,14 @@ public class AppRouter {
     }
     
     private func replaceWindowRoot(with viewController: UIViewController) {
-        window.rootViewController = viewController
-        window.makeKeyAndVisible()
+        UIView.transition(with: window,
+                        duration: 0.8,
+                        options: .transitionCrossDissolve,
+                        animations: {
+                            self.window.rootViewController = viewController
+                            self.window.makeKeyAndVisible()
+                        },
+                        completion: { completed in })
     }
     
     public func popViewController(popTransition: CATransition? = nil, animated: Bool = true) {
