@@ -22,7 +22,7 @@ class TestPresentRoute: Route {
         .present
     }
     
-    var pushTransition: CATransition? {
+    var transition: CATransition? {
         nil
     }
     

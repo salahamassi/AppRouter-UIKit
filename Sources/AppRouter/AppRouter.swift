@@ -57,9 +57,9 @@ public class AppRouter {
         case .present:
             presentViewController(viewController, presentationStyle: route.modalPresentationStyle, transitioningDelegate: route.animatedTransitioningDelegate, animated: route.animated, completion: completion)
         case .push:
-            pushViewController(viewController, pushTransition: route.pushTransition, animated: route.animated)
+            pushViewController(viewController, pushTransition: route.transition, animated: route.animated)
         case .windowRoot:
-            replaceWindowRoot(with: viewController)
+            replaceWindowRoot(with: viewController, transition: route.transition)
         }
     }
     
@@ -78,15 +78,12 @@ public class AppRouter {
         }
     }
     
-    private func replaceWindowRoot(with viewController: UIViewController) {
-        UIView.transition(with: window,
-                        duration: 0.8,
-                        options: .transitionCrossDissolve,
-                        animations: {
-                            self.window.rootViewController = viewController
-                            self.window.makeKeyAndVisible()
-                        },
-                        completion: { completed in })
+    private func replaceWindowRoot(with viewController: UIViewController, transition: CATransition? = nil) {
+        if let transition = transition {
+            window.layer.add(transition, forKey: kCATransition)
+        }
+        window.rootViewController = viewController
+        window.makeKeyAndVisible()
     }
     
     public func popViewController(popTransition: CATransition? = nil, animated: Bool = true) {

@@ -11,7 +11,7 @@ public protocol Route {
     var modalPresentationStyle: UIModalPresentationStyle { get }
     var animatedTransitioningDelegate: UIViewControllerTransitioningDelegate? { get }
     var navigateType: NavigateType { get }
-    var pushTransition: CATransition? { get }
+    var transition: CATransition? { get }
     var animated: Bool { get }
 
     func create(_ router: AppRouter, _ params: [String: Any]?) -> UIViewController
@@ -27,7 +27,7 @@ public extension Route {
         nil
     }
 
-    var pushTransition: CATransition?{
+    var transition: CATransition?{
         nil
     }
     

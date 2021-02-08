@@ -22,7 +22,7 @@ class TestPushRoute: Route {
         .push
     }
     
-    var pushTransition: CATransition? {
+    var transition: CATransition? {
         nil
     }
     

@@ -22,7 +22,7 @@ class TestWindowRootRoute: Route {
         .windowRoot
     }
     
-    var pushTransition: CATransition? {
+    var transition: CATransition? {
         nil
     }
     
