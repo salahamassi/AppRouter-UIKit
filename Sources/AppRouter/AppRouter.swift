@@ -14,7 +14,7 @@ public class AppRouter {
     /// you must set this value in navigation controller delegate willShow viewController
     public var lastPushedViewController: UIViewController? = nil
     
-    public var navigationController: UINavigationController {
+    public var navigationController: UINavigationController? {
         get{
             if let navigationController = presentedViewController as? UINavigationController{
                 return navigationController
@@ -31,7 +31,7 @@ public class AppRouter {
             }else if let navigationController = window.rootViewController?.children.first(where: { $0 is UINavigationController }) as? UINavigationController{
                 return navigationController
             }else{
-                fatalError("there are no navigation controller")
+                return nil
             }
         }
     }
@@ -70,6 +70,7 @@ public class AppRouter {
     }
     
     private func pushViewController(_ viewController: UIViewController, pushTransition: CATransition? = nil, animated: Bool = true) {
+        guard let navigationController = navigationController else { return }
         if let pushTransition = pushTransition{
             navigationController.view.layer.add(pushTransition, forKey: kCATransition)
         }
@@ -79,6 +80,7 @@ public class AppRouter {
     }
     
     private func replaceWindowRoot(with viewController: UIViewController, transition: CATransition? = nil) {
+        guard let navigationController = navigationController else { return }
         if let transition = transition {
             window.layer.add(transition, forKey: kCATransition)
         }
@@ -87,6 +89,7 @@ public class AppRouter {
     }
     
     public func popViewController(popTransition: CATransition? = nil, animated: Bool = true) {
+        guard let navigationController = navigationController else { return }
         if let popTransition = popTransition{
             navigationController.view.layer.add(popTransition, forKey: kCATransition)
         }
@@ -94,6 +97,7 @@ public class AppRouter {
     }
     
     public func popToRootViewController(popTransition: CATransition? = nil, animated: Bool = true) {
+        guard let navigationController = navigationController else { return }
         if let popTransition = popTransition{
             navigationController.view.layer.add(popTransition, forKey: kCATransition)
         }
@@ -101,6 +105,7 @@ public class AppRouter {
     }
     
     public func pop(numberOfScreens: Int, popTransition: CATransition? = nil, animated: Bool = true) {
+        guard let navigationController = navigationController else { return }
         if numberOfScreens <= navigationController.viewControllers.count - 1 {
             if let popTransition = popTransition{
                 navigationController.view.layer.add(popTransition, forKey: kCATransition)
@@ -109,7 +114,8 @@ public class AppRouter {
         }
     }
     
-    public func remove(numberOfScreens: Int){
+    public func remove(numberOfScreens: Int) {
+        guard let navigationController = navigationController else { return }
         if numberOfScreens <= navigationController.viewControllers.count - 1 {
             navigationController.viewControllers.removeSubrange(1...numberOfScreens)
         }
@@ -120,6 +126,7 @@ public class AppRouter {
     }
     
     public func removeAllAndKeep(types: [AnyClass], animated: Bool = true) {
+        guard let navigationController = navigationController else { return }
         var viewControllers = navigationController.viewControllers
         viewControllers.removeAll { (viewController) -> Bool in
             let viewControllerType = type(of: viewController)
@@ -129,6 +136,7 @@ public class AppRouter {
     }
     
     public func remove(types: [AnyClass], animated: Bool = true) {
+        guard let navigationController = navigationController else { return }
         var viewControllers = navigationController.viewControllers
         viewControllers.removeAll { (viewController) -> Bool in
             let viewControllerType = type(of: viewController)
@@ -146,6 +154,7 @@ public class AppRouter {
     }
     
     private func canPushViewController(_ viewController: UIViewController) -> Bool {
+        guard let navigationController = navigationController else { return false }
         if !canDuplicateViewControllers {
             let children = navigationController.children.map(\.className)
             if children.last?.className == viewController.className {

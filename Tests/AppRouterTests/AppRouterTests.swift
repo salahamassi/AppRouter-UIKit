@@ -3,7 +3,7 @@ import XCTest
 
 final class AppRouterTests: XCTestCase {
     
-    func test_initWithRootViewContrllerNil_shouldBeNotNil(){ // need to fix
+    func test_initWithRootViewControllerNil_shouldBeNotNil() { // need to fix
         // given
         let sut = makeSut(rootViewController: nil)
         
@@ -14,7 +14,7 @@ final class AppRouterTests: XCTestCase {
         XCTAssertNotNil(sut.window.rootViewController)
     }
     
-    func test_navigateWithRootwindowType_shouldEqaulToMockViewController() {
+    func test_navigateWithRootWindowType_shouldEqualToMockViewController() {
         // given
         let sut = makeSut()
         
@@ -25,7 +25,7 @@ final class AppRouterTests: XCTestCase {
         XCTAssertTrue(sut.window.rootViewController is MockViewController)
     }
     
-    func test_navigateWithPresentType_shouldEqaulToMockViewController() {
+    func test_navigateWithPresentType_shouldEqualToMockViewController() {
         // given
         let sut = makeSut()
         
@@ -36,7 +36,7 @@ final class AppRouterTests: XCTestCase {
         XCTAssertTrue(sut.window.rootViewController?.presentedViewController is MockViewController)
     }
     
-    func test_navigateWithPushType_shouldEqaulToMockViewController() {
+    func test_navigateWithPushType_shouldEqualToMockViewController() {
         // given
         let rootViewController = UINavigationController()
         let sut = makeSut(rootViewController: rootViewController)
@@ -161,6 +161,27 @@ final class AppRouterTests: XCTestCase {
         wait(for: [expectation], timeout: 5)
     }
     
+    func test_pushThreeViewController_thenRemoveMockViewController_shouldCountEqualZero() {
+        // given
+        let rootViewController = UINavigationController()
+        let sut = makeSut(rootViewController: rootViewController)
+        
+        // when
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        
+        let expectation = XCTestExpectation(description: "push three view controller then remove number of screens success")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            sut.remove(numberOfScreens: 2)
+            XCTAssertEqual(rootViewController.viewControllers.count, 1)
+            expectation.fulfill()
+        }
+        
+        //then
+        wait(for: [expectation], timeout: 5)
+    }
+
     func test_dismissViewControllerCompletion_shouldNotNil() {
         // given
         let sut = makeSut()
@@ -175,7 +196,7 @@ final class AppRouterTests: XCTestCase {
         XCTAssertNotNil(sut.dismissCompletion)
     }
     
-    func test_routeFactoryWindowRoot_windowRootTypeSholdBeMockViewController() {
+    func test_routeFactoryWindowRoot_windowRootTypeShouldBeMockViewController() {
         // given
         let sut = makeSut()
         
