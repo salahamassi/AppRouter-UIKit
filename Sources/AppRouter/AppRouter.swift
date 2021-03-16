@@ -21,10 +21,10 @@ public class AppRouter {
             }else if let tabBarController = presentedViewController as? UITabBarController,
                      let navigationController = tabBarController.selectedViewController as? UINavigationController{
                 return navigationController
-            }else if let tabBarController = presentedViewController.children.first(where: { $0 is UITabBarController }) as? UITabBarController,
+            }else if let tabBarController = presentedViewController?.children.first(where: { $0 is UITabBarController }) as? UITabBarController,
                      let navigationController = tabBarController.selectedViewController as? UINavigationController{
                 return navigationController
-            }else if let navigationController = presentedViewController.children.first(where: { $0 is UINavigationController }) as? UINavigationController{
+            }else if let navigationController = presentedViewController?.children.first(where: { $0 is UINavigationController }) as? UINavigationController{
                 return navigationController
             }else if let navigationController = window.rootViewController as? UINavigationController{
                 return navigationController
@@ -36,9 +36,9 @@ public class AppRouter {
         }
     }
     
-    public var presentedViewController: UIViewController {
+    public var presentedViewController: UIViewController? {
         get{
-            guard let rootViewController = window.rootViewController else { fatalError("rootViewController cann't be nil") }
+            guard let rootViewController = window.rootViewController else { return nil }
             return presentedViewController(rootViewController)
         }
     }
@@ -64,6 +64,7 @@ public class AppRouter {
     }
     
     private func presentViewController(_ viewController: UIViewController, presentationStyle: UIModalPresentationStyle, transitioningDelegate: UIViewControllerTransitioningDelegate?, animated: Bool, completion: (() -> Void)?) {
+        guard let presentedViewController = presentedViewController else { return }
         viewController.modalPresentationStyle = presentationStyle
         viewController.transitioningDelegate = transitioningDelegate
         presentedViewController.present(viewController, animated: animated, completion: completion)
@@ -80,7 +81,6 @@ public class AppRouter {
     }
     
     private func replaceWindowRoot(with viewController: UIViewController, transition: CATransition? = nil) {
-        guard let navigationController = navigationController else { return }
         if let transition = transition {
             window.layer.add(transition, forKey: kCATransition)
         }
@@ -122,6 +122,7 @@ public class AppRouter {
     }
     
     public func dismiss(animated: Bool = true, completion: (() -> Void)? = nil) {
+        guard let presentedViewController = presentedViewController else { return }
         presentedViewController.dismiss(animated: animated, completion: completion)
     }
     

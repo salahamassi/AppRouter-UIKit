@@ -220,7 +220,7 @@ final class AppRouterTests: XCTestCase {
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
         let expectation = XCTestExpectation(description: "navigationController.children == 1")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(sut.navigationController.children.count, 1)
+            XCTAssertEqual(sut.navigationController?.children.count, 1)
             expectation.fulfill()
         }
         
@@ -240,7 +240,7 @@ final class AppRouterTests: XCTestCase {
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
         let expectation = XCTestExpectation(description: "navigationController.children == 3")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(sut.navigationController.children.count, 3)
+            XCTAssertEqual(sut.navigationController?.children.count, 3)
             expectation.fulfill()
         }
         
