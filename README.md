@@ -183,6 +183,27 @@ extension AppNavigationController: UINavigationControllerDelegate {
 }
 ```
 
+* `navigate(to route: Route, with params: [String: Any]?, completion: (() -> Void)?)` 
+     *  navigate to given route with optional params and completion.
+
+* `popViewController(popTransition: CATransition? = nil, animated: Bool = true)` 
+     *  pop last view controller with optional transition.
+
+* `pop(numberOfScreens: Int, popTransition: CATransition? = nil, animated: Bool = true)` 
+     *  pop to specific number of screens with optional transition.
+
+* `remove(numberOfScreens: Int)` 
+     *  remove  specific number from navigation controller stack.
+
+* `dismiss(animated: Bool = true, completion: (() -> Void)? = nil)` 
+     *  dismiss last presented view controller.
+     
+* `removeAllAndKeep(types: [AnyClass], animated: Bool = true)` 
+    *  remove all view controllers from navigation controller stack and keep just the given types.
+
+* `remove(types: [AnyClass], animated: Bool = true)` 
+    *  remove all given types from navigation controller stack.
+     
 ### Route Optionals Properties
 
 * `modalPresentationStyle: UIModalPresentationStyle` 
