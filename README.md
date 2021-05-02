@@ -4,7 +4,7 @@
 
 App Route makes it easy to manage navigation between screens, hide the complexity of composing a new screen, prevent duplicate code.
 
-intead of 
+instead of 
 
 ```swift
 let serviceLocationViewController = ServiceLocationViewController()
@@ -27,12 +27,12 @@ router?.navigate(to: .serviceLocation(params: ["selectedLocationType": SelectedL
 
 # How to use it? 
 
-1- in app delegate define a instatnce of app router 
+1- in app delegate define a instance of app router 
 ```swift
  var appRouter: AppRouter?
 ```
 
-2- when windows is ready assing app router instance as follow
+2- when windows is ready, assign the app router instance as follow
 ```swift
  router = AppRouter(window: window, rootViewController: nil)
 ```
@@ -42,7 +42,7 @@ or if you want to pass the rootViewController
  router = AppRouter(window: window, rootViewController: navigationController)
 ```
 
-3- make the View Controller confirm the Routable protocol to have a Router instance for all viewcontrollers subclasses in the app
+3- make the View Controller confirm the Routable protocol to have a Router instance for all uiviewController subclasses in the app
 ```swift
 extension UIViewController: Routable {
 
@@ -74,7 +74,7 @@ class ServiceReportRoute: Route {
 }
 ```
 
-5- you can create a helper enum to access the routes directly using enum and swift extention 
+5- you can create a helper enum to access the routes directly using enum and swift extension 
 
 ```swift
 
@@ -86,7 +86,7 @@ enum AuthRouts {
     case businessSectorSignup
 }
 
-extension AppRouter{
+extension AppRouter {
     
     func navigate(to route: AuthRouts){
         let mRoute: Route
@@ -154,7 +154,7 @@ dependencies: [
 ## More options
 
 * `RouteFactory` Class
- 	* This class help you to create a route directly without create a new file (if your screen compsition is too simple witout any details). 
+ 	* This class help you to create a route directly without create a new file (if your screen compsition is too simple without any details). 
 ```swift
  let simpleRoute: RouteFactory<SimpleViewController> = RouteFactory.createRoute(navigateType: .push)
  router?.navigate(to: simpleRoute)
@@ -181,7 +181,7 @@ extension AppNavigationController: UINavigationControllerDelegate {
 }
 ```
 
-### Route opional Properties
+### Route Optionals Properties
 
 * `modalPresentationStyle: UIModalPresentationStyle` 
 * Modal presentation styles for presenting view controllers.
