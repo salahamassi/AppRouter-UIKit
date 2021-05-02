@@ -1,5 +1,7 @@
 # AppRouter
 
+[![CI](https://github.com/salahamassi/AppRouter-UIKit/actions/workflows/CI.yml/badge.svg)](https://github.com/salahamassi/AppRouter-UIKit/actions/workflows/CI.yml)
+
 # What is it? 
 
 App Route makes it easy to manage navigation between screens, hide the complexity of composing a new screen, prevent duplicate code.
