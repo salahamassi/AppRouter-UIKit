@@ -207,14 +207,14 @@ extension AppNavigationController: UINavigationControllerDelegate {
 ### Route Optionals Properties
 
 * `modalPresentationStyle: UIModalPresentationStyle` 
-* Modal presentation styles for presenting view controllers.
+    * Modal presentation styles for presenting view controllers.
 
 
 * `animatedTransitioningDelegate: UIViewControllerTransitioningDelegate?` 
-* A set of methods that vend objects used to manage a fixed-length or interactive transition between view controllers.
-* When using this value you must set `modalPresentationStyle` to custom and you must hold a reference for animatedTransitioningDelegate or it will be deallocated 
+    * A set of methods that vend objects used to manage a fixed-length or interactive transition between view controllers.
+    * When using this value you must set `modalPresentationStyle` to custom and you must hold a reference for animatedTransitioningDelegate or it will be deallocated 
 ```swift
-struct PhotosPreviewRoute: Route {
+    struct PhotosPreviewRoute: Route {
 
     private let animator = PhotosPreviewViewControllerPresentDismissAnimator()
 
@@ -244,8 +244,8 @@ struct PhotosPreviewRoute: Route {
 
 
 * `transition: CATransition?` 
-* An object that provides an animated transition between a layer's states.
-* can animated the push navigate type and the windowRoot type.
+    * An object that provides an animated transition between a layer's states.
+    * can animated the push navigate type and the windowRoot type.
 ```swift
     var transition: CATransition?{
         let transition = CATransition()
@@ -255,7 +255,4 @@ struct PhotosPreviewRoute: Route {
 ```
 
 * `animated: Bool` 
-* Specify true to animate the transition or false if you do not want the transition to be animated for all navigate type.
- 
-
-
+    * Specify true to animate the transition or false if you do not want the transition to be animated for all navigate type.
