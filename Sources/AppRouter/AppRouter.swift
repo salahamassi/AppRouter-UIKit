@@ -16,21 +16,23 @@ public class AppRouter {
     
     public var navigationController: UINavigationController? {
         get{
-            if let navigationController = presentedViewController as? UINavigationController{
+            if let navigationController = presentedViewController as? UINavigationController {
                 return navigationController
-            }else if let tabBarController = presentedViewController as? UITabBarController,
-                     let navigationController = tabBarController.selectedViewController as? UINavigationController{
+            } else if let tabBarController = presentedViewController as? UITabBarController,
+                     let navigationController = tabBarController.selectedViewController as? UINavigationController {
                 return navigationController
-            }else if let tabBarController = presentedViewController?.children.first(where: { $0 is UITabBarController }) as? UITabBarController,
-                     let navigationController = tabBarController.selectedViewController as? UINavigationController{
+            } else if let tabBarController = presentedViewController?.children.first(where: { $0 is UITabBarController }) as? UITabBarController,
+                     let navigationController = tabBarController.selectedViewController as? UINavigationController {
                 return navigationController
-            }else if let navigationController = presentedViewController?.children.first(where: { $0 is UINavigationController }) as? UINavigationController{
+            } else if let navigationController = presentedViewController?.children.first(where: { $0 is UINavigationController }) as? UINavigationController {
                 return navigationController
-            }else if let navigationController = window.rootViewController as? UINavigationController{
+            } else if let navigationController =  presentedViewController?.children.first?.children.first(where: { $0 is UINavigationController }) as? UINavigationController {
                 return navigationController
-            }else if let navigationController = window.rootViewController?.children.first(where: { $0 is UINavigationController }) as? UINavigationController{
+            } else if let navigationController = window.rootViewController as? UINavigationController{
                 return navigationController
-            }else{
+            } else if let navigationController = window.rootViewController?.children.first(where: { $0 is UINavigationController }) as? UINavigationController {
+                return navigationController
+            } else {
                 return nil
             }
         }
