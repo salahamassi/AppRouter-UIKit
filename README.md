@@ -295,5 +295,5 @@ router?.navigate(to: .ordersRoute(parent: mainTabBarViewController,
 from OrdersViewController you can't use the main `appRouter` to do your navigation stuff, you need to use the `innerRouter`.
 
 ```swift
-router?.innerRouter?.navigate(to: .orderDetails(params: ["orderId": order.id])) 
+innerRouter?.navigate(to: .orderDetails(params: ["orderId": order.id])) 
 ```
