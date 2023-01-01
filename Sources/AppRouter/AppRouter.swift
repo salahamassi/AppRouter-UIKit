@@ -74,25 +74,10 @@ public class AppRouter {
                                    in view: UIView,
                                    at frame: CGRect?,
                                    _ safeArea: Bool = false) {
-        var mChild = child
-        if let child = parent.children.first(where: { parentChild in
-            if let childNavigationController = child as? UINavigationController,
-               let childParentNavigationController = parentChild as? UINavigationController {
-               return type(of: childNavigationController.topViewController) == type(of: childParentNavigationController.topViewController)
-            } else if type(of: parentChild) == type(of: child) {
-                return true
-            } else {
-                return false
-            }
-        }) {
-            mChild = child
-            child.removeFromParent()
-            child.view.removeFromSuperview()
-        }
-        parent.addChild(mChild)
-        view.addSubview(mChild.view)
+        parent.addChild(child)
+        view.addSubview(child.view)
         if let frame = frame {
-            mChild.view.frame = frame
+            child.view.frame = frame
         } else {
             let superviewTopAnchor = safeArea ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor
             let superviewBottomAnchor = safeArea ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor
@@ -100,14 +85,14 @@ public class AppRouter {
             let superviewTrailingAnchor = safeArea ? view.safeAreaLayoutGuide.trailingAnchor : view.trailingAnchor
             
             NSLayoutConstraint.activate([
-                mChild.view.topAnchor.constraint(equalTo: superviewTopAnchor),
-                mChild.view.bottomAnchor.constraint(equalTo: superviewBottomAnchor),
-                mChild.view.leadingAnchor.constraint(equalTo: superviewLeadingAnchor),
-                mChild.view.trailingAnchor.constraint(equalTo: superviewTrailingAnchor),
+                child.view.topAnchor.constraint(equalTo: superviewTopAnchor),
+                child.view.bottomAnchor.constraint(equalTo: superviewBottomAnchor),
+                child.view.leadingAnchor.constraint(equalTo: superviewLeadingAnchor),
+                child.view.trailingAnchor.constraint(equalTo: superviewTrailingAnchor),
             ])
         }
-        mChild.didMove(toParent: parent)
-        nestedRouters[mChild] = AppRouter(window: window, rootViewController: nil)
+        child.didMove(toParent: parent)
+        nestedRouters[child] = AppRouter(window: window, rootViewController: nil)
     }
     
     private func presentViewController(_ viewController: UIViewController, presentationStyle: UIModalPresentationStyle, transitioningDelegate: UIViewControllerTransitioningDelegate?, animated: Bool, completion: (() -> Void)?) {
