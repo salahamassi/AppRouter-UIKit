@@ -9,13 +9,13 @@ on:
 jobs:
   build-and-test:
 
-    runs-on: macos-latest
+    runs-on: macos-12
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_12.4.app
+      run: sudo xcode-select -switch /Applications/Xcode_14.1.app
 
     - name: Build and test app router
-      run: xcodebuild clean build test -project AppRouter.xcodeproj -scheme "AppRouter" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -destination "platform=iOS Simulator,OS=14.4,name=iPhone 12" ONLY_ACTIVE_ARCH=YES
+      run: xcodebuild clean build test -project AppRouter.xcodeproj -scheme "AppRouter" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator -destination "platform=iOS Simulator,OS=16.1,name=iPhone 14" ONLY_ACTIVE_ARCH=YES
