@@ -14,6 +14,8 @@ public class AppRouter {
     /// you must set this value in navigation controller delegate willShow viewController
     public var lastPushedViewController: UIViewController? = nil
     
+    private var nestedRouters: [UINavigationController: AppRouter] = [:]
+    
     public var navigationController: UINavigationController? {
         get{
             if let navigationController = presentedViewController as? UINavigationController {
