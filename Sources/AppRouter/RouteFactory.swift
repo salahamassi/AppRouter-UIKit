@@ -8,7 +8,7 @@
 import UIKit
 
 
-public struct RouteFactory<T: UIViewController>: Route where T: Routable {
+public struct RouteFactory<T: Routable>: Route {
     
     public typealias StoryboardViewController = (storyBoardName: String, viewControllerIdentifier: String)
     
@@ -50,11 +50,10 @@ public struct RouteFactory<T: UIViewController>: Route where T: Routable {
         return viewController
     }
     
-    public static func createRoute<T: UIViewController & Routable>(
-                                                        storyboardViewController: StoryboardViewController? = nil,
-                                                        nibName: String? = nil,
-                                                        navigateType: NavigateType,
-                                                        animated: Bool = false) -> RouteFactory<T> {
+    public static func createRoute<T: Routable>(storyboardViewController: StoryboardViewController? = nil,
+                                                nibName: String? = nil,
+                                                navigateType: NavigateType,
+                                                animated: Bool = false) -> RouteFactory<T> {
         RouteFactory<T>(navigateType: navigateType,
                         animated: animated,
                         storyboardViewController: storyboardViewController,
