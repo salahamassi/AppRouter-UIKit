@@ -21,7 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		3DC57E652961AAAA00E6EC36 /* Routable+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC57E642961AAAA00E6EC36 /* Routable+UIViewController.swift */; };
 		OBJ_35 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* AppRouter.swift */; };
 		OBJ_36 /* Extensions+NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Extensions+NSObject.swift */; };
 		OBJ_37 /* NavigateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* NavigateType.swift */; };
@@ -58,7 +57,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3DC57E642961AAAA00E6EC36 /* Routable+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Routable+UIViewController.swift"; sourceTree = "<group>"; };
 		"AppRouter::AppRouter::Product" /* AppRouter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"AppRouter::AppRouterTests::Product" /* AppRouterTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppRouterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* Extensions+NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+NSObject.swift"; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 				OBJ_12 /* Routable.swift */,
 				OBJ_13 /* Route.swift */,
 				OBJ_14 /* RouteFactory.swift */,
-				3DC57E642961AAAA00E6EC36 /* Routable+UIViewController.swift */,
 			);
 			name = AppRouter;
 			path = Sources/AppRouter;
@@ -261,7 +258,6 @@
 				OBJ_35 /* AppRouter.swift in Sources */,
 				OBJ_36 /* Extensions+NSObject.swift in Sources */,
 				OBJ_37 /* NavigateType.swift in Sources */,
-				3DC57E652961AAAA00E6EC36 /* Routable+UIViewController.swift in Sources */,
 				OBJ_38 /* Routable.swift in Sources */,
 				OBJ_39 /* Route.swift in Sources */,
 				OBJ_40 /* RouteFactory.swift in Sources */,
