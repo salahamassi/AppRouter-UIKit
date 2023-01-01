@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		3DB694BA2961BDEE00EC8587 /* TestAddChildRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB694B92961BDED00EC8587 /* TestAddChildRoute.swift */; };
+		3DB694BC2961BFE400EC8587 /* MockChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB694BB2961BFE400EC8587 /* MockChildViewController.swift */; };
 		OBJ_35 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* AppRouter.swift */; };
 		OBJ_36 /* Extensions+NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Extensions+NSObject.swift */; };
 		OBJ_37 /* NavigateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* NavigateType.swift */; };
@@ -57,6 +59,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3DB694B92961BDED00EC8587 /* TestAddChildRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAddChildRoute.swift; sourceTree = "<group>"; };
+		3DB694BB2961BFE400EC8587 /* MockChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChildViewController.swift; sourceTree = "<group>"; };
 		"AppRouter::AppRouter::Product" /* AppRouter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"AppRouter::AppRouterTests::Product" /* AppRouterTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppRouterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* Extensions+NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+NSObject.swift"; sourceTree = "<group>"; };
@@ -120,9 +124,11 @@
 				OBJ_19 /* AppRouterMock.swift */,
 				OBJ_20 /* MockAnimatedTransitioningDelegate.swift */,
 				OBJ_21 /* MockViewController.swift */,
+				3DB694BB2961BFE400EC8587 /* MockChildViewController.swift */,
 				OBJ_22 /* TestPresentRoute.swift */,
 				OBJ_23 /* TestPushRoute.swift */,
 				OBJ_24 /* TestWindowRootRoute.swift */,
+				3DB694B92961BDED00EC8587 /* TestAddChildRoute.swift */,
 				OBJ_25 /* UIViewController+Routable.swift */,
 			);
 			path = Helper;
@@ -137,7 +143,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -146,7 +152,6 @@
 				OBJ_26 /* Products */,
 				OBJ_29 /* README.md */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -237,7 +242,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_26 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -277,9 +282,11 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_58 /* AppRouterTests.swift in Sources */,
+				3DB694BA2961BDEE00EC8587 /* TestAddChildRoute.swift in Sources */,
 				OBJ_59 /* AppRouterMock.swift in Sources */,
 				OBJ_60 /* MockAnimatedTransitioningDelegate.swift in Sources */,
 				OBJ_61 /* MockViewController.swift in Sources */,
+				3DB694BC2961BFE400EC8587 /* MockChildViewController.swift in Sources */,
 				OBJ_62 /* TestPresentRoute.swift in Sources */,
 				OBJ_63 /* TestPushRoute.swift in Sources */,
 				OBJ_64 /* TestWindowRootRoute.swift in Sources */,

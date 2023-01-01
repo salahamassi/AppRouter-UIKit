@@ -92,7 +92,7 @@ public class AppRouter {
             ])
         }
         child.didMove(toParent: parent)
-        nestedRouters[parent] = AppRouter(window: window, rootViewController: child)
+        nestedRouters[child] = AppRouter(window: window, rootViewController: nil)
     }
     
     private func presentViewController(_ viewController: UIViewController, presentationStyle: UIModalPresentationStyle, transitioningDelegate: UIViewControllerTransitioningDelegate?, animated: Bool, completion: (() -> Void)?) {
@@ -178,13 +178,11 @@ public class AppRouter {
         navigationController.setViewControllers(viewControllers, animated: animated)
     }
     
-    public func removeChild(from parentViewController: UIViewController) {
-        guard let nestedRouter = nestedRouters[parentViewController] else { fatalError("can't find nested router") }
-        guard let childViewController = nestedRouter.window.rootViewController else { fatalError("can't find root view controller") }
+    public func removeChild(_ childViewController: UIViewController) {
         childViewController.willMove(toParent: nil)
         childViewController.view.removeFromSuperview()
         childViewController.removeFromParent()
-        nestedRouters[parentViewController] = nil
+        nestedRouters[childViewController] = nil
     }
     
     private func presentedViewController(_ viewController: UIViewController) -> UIViewController {

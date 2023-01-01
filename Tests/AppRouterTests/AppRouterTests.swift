@@ -48,6 +48,38 @@ final class AppRouterTests: XCTestCase {
         XCTAssertTrue(rootViewController.topViewController is MockViewController)
     }
     
+    func test_navigateWithAddChildType_shouldNestedRoutersCountEqualOne() {
+        // given
+        let rootViewController = MockViewController()
+        let sut = makeSut(rootViewController: rootViewController)
+        let childRoute = TestAddChildRoute(parent: rootViewController)
+
+        // when
+        sut.navigate(to: childRoute, with: nil, completion: nil)
+        let captureChild = childRoute.captureChild!
+
+        //then
+        XCTAssertEqual(sut.nestedRouters.count, 1)
+        XCTAssertNotNil(sut.nestedRouters[captureChild])
+        XCTAssertTrue(sut.nestedRouters[captureChild]?.navigationController?.topViewController is MockChildViewController)
+    }
+    
+    func test_removeChildAfterNavigateWithAddChildType_shouldNestedRoutersCountZero() {
+        // given
+        let rootViewController = MockViewController()
+        let sut = makeSut(rootViewController: rootViewController)
+        let childRoute = TestAddChildRoute(parent: rootViewController)
+        sut.navigate(to: childRoute, with: nil, completion: nil)
+
+        // when
+        sut.removeChild(childRoute.captureChild!)
+
+        //then
+        XCTAssertTrue(sut.nestedRouters.isEmpty)
+        XCTAssertNil(sut.nestedRouters[rootViewController])
+    }
+
+    
     func test_routeParams_shouldNotNil() {
         // given
         let sut = makeSut()
