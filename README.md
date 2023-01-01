@@ -156,7 +156,7 @@ dependencies: [
 ## More options
 
 * `RouteFactory` Class
- 	* This class help you to create a route directly without create a new file (if your screen compsition is too simple without any details). 
+     * This class help you to create a route directly without create a new file (if your screen compsition is too simple without any details). 
 ```swift
  let simpleRoute: RouteFactory<SimpleViewController> = RouteFactory.createRoute(navigateType: .push)
  router?.navigate(to: simpleRoute)
@@ -165,16 +165,16 @@ dependencies: [
 ### AppRouter Properties
 
 * `navigationController`  
- 	*  Access to the navigation controller on multiple scenarios (last presented, selected tab bar, as the first child to select tab bar, the window root, or the first child at the window root) and return nil if there are no navigationController after checked all above scenarios
+     *  Access to the navigation controller on multiple scenarios (last presented, selected tab bar, as the first child to select tab bar, the window root, or the first child at the window root) and return nil if there are no navigationController after checked all above scenarios
 
 * `presentedViewController`  
- 	*  Access to the last presented view controller 
+     *  Access to the last presented view controller 
 
 * `canDuplicateViewControllers` 
- 	*  As the name suggest you can prevent the client from push the same type of view controller when this value is true
+     *  As the name suggest you can prevent the client from push the same type of view controller when this value is true
 
 * `lastPushedViewController` 
- 	*  The client is responsible to assign this value at (navigation controller delegate willShow viewController function), and the app AppRouter will use it to check Duplicates ViewControllers (app router cann't check Duplicates ViewControllers without this value).
+     *  The client is responsible to assign this value at (navigation controller delegate willShow viewController function), and the app AppRouter will use it to check Duplicates ViewControllers (app router cann't check Duplicates ViewControllers without this value).
 ```swift
 extension AppNavigationController: UINavigationControllerDelegate {
     navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
@@ -256,3 +256,44 @@ extension AppNavigationController: UINavigationControllerDelegate {
 
 * `animated: Bool` 
     * Specify true to animate the transition or false if you do not want the transition to be animated for all navigate type.
+
+## Inner Routers 
+when you use the `addChild` navigate type options, the app router automatically will create a new instance from AppRouter, and add it to as a `Inner Router`
+Simple example:
+
+
+```swift
+class OrdersRoute: Route {
+    
+    let parent: UIViewController
+    let containerView: UIView
+    
+    init(parent: UIViewController, containerView: UIView) {
+        self.containerView = containerView
+    }
+    
+    var modalPresentationStyle: UIModalPresentationStyle {
+        .none
+    }
+    
+    var navigateType: NavigateType {
+        .addChild(parent, view: containerView, safeArea: true)
+    }
+     
+    func create(_ router: AppRouter, _ params: [String : Any]?) -> UIViewController {
+         UINavigationController(rootViewController: OrdersViewController())
+    }
+}
+```
+
+### Usage:
+```swift
+router?.navigate(to: .ordersRoute(parent: mainTabBarViewController,
+                                  containerView: mainTabBarViewController.containerView)) 
+```
+
+from OrdersViewController you can't use the main `appRouter` to do your navigation stuff, you need to use the `innerRouter`.
+
+```swift
+router?.innerRouter?.navigate(to: .orderDetails(params: ["orderId": order.id])) 
+```

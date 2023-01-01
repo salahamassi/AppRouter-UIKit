@@ -48,6 +48,38 @@ final class AppRouterTests: XCTestCase {
         XCTAssertTrue(rootViewController.topViewController is MockViewController)
     }
     
+    func test_navigateWithAddChildType_shouldNestedRoutersCountEqualOne() {
+        // given
+        let rootViewController = MockViewController()
+        let sut = makeSut(rootViewController: rootViewController)
+        let childRoute = TestAddChildRoute(parent: rootViewController)
+
+        // when
+        sut.navigate(to: childRoute, with: nil, completion: nil)
+        let captureChild = childRoute.captureChild!
+
+        //then
+        XCTAssertEqual(sut.nestedRouters.count, 1)
+        XCTAssertNotNil(sut.nestedRouters[captureChild])
+        XCTAssertTrue(sut.nestedRouters[captureChild]?.navigationController?.topViewController is MockChildViewController)
+    }
+    
+    func test_removeChildAfterNavigateWithAddChildType_shouldNestedRoutersCountZero() {
+        // given
+        let rootViewController = MockViewController()
+        let sut = makeSut(rootViewController: rootViewController)
+        let childRoute = TestAddChildRoute(parent: rootViewController)
+        sut.navigate(to: childRoute, with: nil, completion: nil)
+
+        // when
+        sut.removeChild(childRoute.captureChild!)
+
+        //then
+        XCTAssertTrue(sut.nestedRouters.isEmpty)
+        XCTAssertNil(sut.nestedRouters[rootViewController])
+    }
+
+    
     func test_routeParams_shouldNotNil() {
         // given
         let sut = makeSut()
@@ -201,7 +233,7 @@ final class AppRouterTests: XCTestCase {
         let sut = makeSut()
         
         // when
-        let route: RouteFactory<MockViewController> = RouteFactory.createRoute(navigateType: .windowRoot)
+        let route: RouteFactory<MockViewController> = RouteFactory<MockViewController>.createRoute(navigateType: .windowRoot)
         sut.navigate(to: route, with: nil, completion: nil)
                 
         //then
@@ -236,7 +268,8 @@ final class AppRouterTests: XCTestCase {
         // when
         sut.canDuplicateViewControllers = false
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
-        sut.navigate(to: RouteFactory.createRoute(navigateType: .push), with: nil, completion: nil)
+        let route: RouteFactory<UIViewController> = RouteFactory<UIViewController>.createRoute(navigateType: .push)
+        sut.navigate(to: route, with: nil, completion: nil)
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
         let expectation = XCTestExpectation(description: "navigationController.children == 3")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
