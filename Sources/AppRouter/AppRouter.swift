@@ -64,7 +64,35 @@ public class AppRouter {
             pushViewController(viewController, pushTransition: route.transition, animated: route.animated)
         case .windowRoot:
             replaceWindowRoot(with: viewController, transition: route.transition)
+        case .addChild(let parent, let view, let safeArea, let frame):
+            addViewController(viewController, to: parent, in: view, at: frame, safeArea)
         }
+    }
+    
+    private func addViewController(_ child: UIViewController,
+                                   to parent: UIViewController,
+                                   in view: UIView,
+                                   at frame: CGRect?,
+                                   _ safeArea: Bool = false) {
+        parent.addChild(child)
+        view.addSubview(child.view)
+        if let frame = frame {
+            child.view.frame = frame
+        } else {
+            let superviewTopAnchor = safeArea ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor
+            let superviewBottomAnchor = safeArea ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor
+            let superviewLeadingAnchor = safeArea ? view.safeAreaLayoutGuide.leadingAnchor : view.leadingAnchor
+            let superviewTrailingAnchor = safeArea ? view.safeAreaLayoutGuide.trailingAnchor : view.trailingAnchor
+            
+            NSLayoutConstraint.activate([
+                child.view.topAnchor.constraint(equalTo: superviewTopAnchor),
+                child.view.bottomAnchor.constraint(equalTo: superviewBottomAnchor),
+                child.view.leadingAnchor.constraint(equalTo: superviewLeadingAnchor),
+                child.view.trailingAnchor.constraint(equalTo: superviewTrailingAnchor),
+            ])
+        }
+        child.didMove(toParent: parent)
+        nestedRouters[parent] = AppRouter(window: window, rootViewController: child)
     }
     
     private func presentViewController(_ viewController: UIViewController, presentationStyle: UIModalPresentationStyle, transitioningDelegate: UIViewControllerTransitioningDelegate?, animated: Bool, completion: (() -> Void)?) {
@@ -148,6 +176,15 @@ public class AppRouter {
             return types.contains(where: { $0 == viewControllerType })
         }
         navigationController.setViewControllers(viewControllers, animated: animated)
+    }
+    
+    public func removeChild(from parentViewController: UIViewController) {
+        guard let nestedRouter = nestedRouters[parentViewController] else { fatalError("can't find nested router") }
+        guard let childViewController = nestedRouter.window.rootViewController else { fatalError("can't find root view controller") }
+        childViewController.willMove(toParent: nil)
+        childViewController.view.removeFromSuperview()
+        childViewController.removeFromParent()
+        nestedRouters[parentViewController] = nil
     }
     
     private func presentedViewController(_ viewController: UIViewController) -> UIViewController {
