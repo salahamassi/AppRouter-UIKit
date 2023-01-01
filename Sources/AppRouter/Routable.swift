@@ -15,6 +15,10 @@ public protocol Routable where Self: UIViewController {
 public extension Routable {
     
     var innerRouter: AppRouter? {
-        router?.nestedRouters[self]
+        if let navigationController = navigationController {
+            return router?.nestedRouters[navigationController]
+        } else {
+            return router?.nestedRouters[self]
+        }
     }
 }
