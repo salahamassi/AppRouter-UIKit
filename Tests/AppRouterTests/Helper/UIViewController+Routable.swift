@@ -8,7 +8,7 @@
 @testable import AppRouter
 import UIKit
 
-extension UIViewController: Routable {
+extension UIViewController: @retroactive Routable {
     
     /// in normal case it must return appRouter instance from app delegate class
     weak public var router: AppRouter? {

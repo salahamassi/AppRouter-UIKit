@@ -50,7 +50,7 @@ public struct RouteFactory<T: Routable>: Route {
         return viewController
     }
     
-    public static func createRoute<T: Routable>(storyboardViewController: StoryboardViewController? = nil,
+    public static func createRoute(storyboardViewController: StoryboardViewController? = nil,
                                                 nibName: String? = nil,
                                                 navigateType: NavigateType,
                                                 animated: Bool = false) -> RouteFactory<T> {
