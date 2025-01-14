@@ -53,11 +53,11 @@ final class AppRouterTests: XCTestCase {
         let rootViewController = MockViewController()
         let sut = makeSut(rootViewController: rootViewController)
         let childRoute = TestAddChildRoute(parent: rootViewController)
-
+        
         // when
         sut.navigate(to: childRoute, with: nil, completion: nil)
         let captureChild = childRoute.captureChild!
-
+        
         //then
         XCTAssertEqual(sut.nestedRouters.count, 1)
         XCTAssertNotNil(sut.nestedRouters[captureChild])
@@ -70,15 +70,15 @@ final class AppRouterTests: XCTestCase {
         let sut = makeSut(rootViewController: rootViewController)
         let childRoute = TestAddChildRoute(parent: rootViewController)
         sut.navigate(to: childRoute, with: nil, completion: nil)
-
+        
         // when
         sut.removeChild(childRoute.captureChild!)
-
+        
         //then
         XCTAssertTrue(sut.nestedRouters.isEmpty)
         XCTAssertNil(sut.nestedRouters[rootViewController])
     }
-
+    
     
     func test_routeParams_shouldNotNil() {
         // given
@@ -213,7 +213,7 @@ final class AppRouterTests: XCTestCase {
         //then
         wait(for: [expectation], timeout: 5)
     }
-
+    
     func test_dismissViewControllerCompletion_shouldNotNil() {
         // given
         let sut = makeSut()
@@ -235,7 +235,7 @@ final class AppRouterTests: XCTestCase {
         // when
         let route: RouteFactory<MockViewController> = RouteFactory<MockViewController>.createRoute(navigateType: .windowRoot)
         sut.navigate(to: route, with: nil, completion: nil)
-                
+        
         //then
         XCTAssertTrue(sut.window.rootViewController is MockViewController)
     }
@@ -244,7 +244,7 @@ final class AppRouterTests: XCTestCase {
         // given
         let rootViewController = UINavigationController()
         let sut = makeSut(rootViewController: rootViewController)
-
+        
         // when
         sut.canDuplicateViewControllers = false
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
@@ -264,7 +264,7 @@ final class AppRouterTests: XCTestCase {
         // given
         let rootViewController = UINavigationController()
         let sut = makeSut(rootViewController: rootViewController)
-
+        
         // when
         sut.canDuplicateViewControllers = false
         sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
@@ -280,7 +280,85 @@ final class AppRouterTests: XCTestCase {
         //then
         wait(for: [expectation], timeout: 5)
     }
-
+    
+    func test_navigateShouldAddToLiveRoutes() {
+        // given
+        let sut = makeSut()
+        let route = TestPresentRoute()
+        
+        // when
+        sut.navigate(to: route, with: nil, completion: nil)
+        
+        // then
+        XCTAssertEqual(sut.liveRoutes.count, 1)
+    }
+    
+    func test_popShouldRemoveFromLiveRoutes() {
+        // given
+        let rootViewController = UINavigationController()
+        let sut = makeSut(rootViewController: rootViewController)
+        
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        
+        // when
+        sut.popViewController(animated: false)
+        
+        // then
+        XCTAssertEqual(sut.liveRoutes.count, 1)
+    }
+    
+    func test_removeViewControllersShouldUpdateLiveRoutes() throws {
+        // given
+        let rootViewController = UINavigationController()
+        let sut = makeSut(rootViewController: rootViewController)
+        
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        
+        // when
+        sut.remove(numberOfScreens: 1)
+        
+        // then
+        XCTAssertEqual(sut.liveRoutes.count, 1)
+        let topViewController = try XCTUnwrap(rootViewController.topViewController,
+                                              "Expected topViewController to be non-nil")
+        XCTAssertTrue(sut.liveRoutes.contains(topViewController))
+    }
+    
+    func test_removeChildShouldUpdateLiveRoutes() {
+        // given
+        let rootViewController = MockViewController()
+        let sut = makeSut(rootViewController: rootViewController)
+        let childRoute = TestAddChildRoute(parent: rootViewController)
+        
+        sut.navigate(to: childRoute, with: nil, completion: nil)
+        let child = childRoute.captureChild!
+        
+        // when
+        sut.removeChild(child)
+        
+        // then
+        XCTAssertTrue(sut.liveRoutes.isEmpty)
+    }
+    
+    func test_liveRoutesShouldBeCorrectAfterMultipleNavigations() throws {
+        // given
+        let rootViewController = UINavigationController()
+        let sut = makeSut(rootViewController: rootViewController)
+        
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        sut.navigate(to: TestPushRoute(), with: nil, completion: nil)
+        
+        // when
+        sut.popViewController(animated: false)
+        
+        // then
+        XCTAssertEqual(sut.liveRoutes.count, 1)
+        let topViewController = try XCTUnwrap(rootViewController.topViewController,
+                                              "Expected topViewController to be non-nil")
+        XCTAssertTrue(sut.liveRoutes.contains(topViewController))
+    }
     
     private weak var weakSUT: AppRouterMock?
     

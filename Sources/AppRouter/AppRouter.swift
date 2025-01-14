@@ -15,16 +15,17 @@ public class AppRouter {
     public var lastPushedViewController: UIViewController? = nil
     
     private(set) public var nestedRouters: [UIViewController: AppRouter] = [:]
+    private(set) public var liveRoutes: [UIViewController] = [] // Keeps track of live routes
     
     public var navigationController: UINavigationController? {
-        get{
+        get {
             if let navigationController = presentedViewController as? UINavigationController {
                 return navigationController
             } else if let tabBarController = presentedViewController as? UITabBarController,
-                     let navigationController = tabBarController.selectedViewController as? UINavigationController {
+                      let navigationController = tabBarController.selectedViewController as? UINavigationController {
                 return navigationController
             } else if let tabBarController = presentedViewController?.children.first(where: { $0 is UITabBarController }) as? UITabBarController,
-                     let navigationController = tabBarController.selectedViewController as? UINavigationController {
+                      let navigationController = tabBarController.selectedViewController as? UINavigationController {
                 return navigationController
             } else if let navigationController = presentedViewController?.children.first(where: { $0 is UINavigationController }) as? UINavigationController {
                 return navigationController
@@ -67,6 +68,7 @@ public class AppRouter {
         case .addChild(let parent, let view, let safeArea, let frame):
             addViewController(viewController, to: parent, in: view, at: frame, safeArea)
         }
+        liveRoutes.append(viewController) // Track the route
     }
     
     private func addViewController(_ child: UIViewController,
@@ -122,6 +124,9 @@ public class AppRouter {
     
     public func popViewController(popTransition: CATransition? = nil, animated: Bool = true) {
         guard let navigationController = navigationController else { return }
+        if let topViewController = navigationController.topViewController {
+            liveRoutes.removeAll { $0 == topViewController } // Remove from live routes
+        }
         if let popTransition = popTransition{
             navigationController.view.layer.add(popTransition, forKey: kCATransition)
         }
@@ -130,6 +135,8 @@ public class AppRouter {
     
     public func popToRootViewController(popTransition: CATransition? = nil, animated: Bool = true) {
         guard let navigationController = navigationController else { return }
+        let rootViewController = navigationController.viewControllers.first
+        liveRoutes.removeAll { $0 != rootViewController } // Keep only the root view controller
         if let popTransition = popTransition{
             navigationController.view.layer.add(popTransition, forKey: kCATransition)
         }
@@ -139,22 +146,34 @@ public class AppRouter {
     public func pop(numberOfScreens: Int, popTransition: CATransition? = nil, animated: Bool = true) {
         guard let navigationController = navigationController else { return }
         if numberOfScreens <= navigationController.viewControllers.count - 1 {
-            if let popTransition = popTransition{
+            if let popTransition = popTransition {
                 navigationController.view.layer.add(popTransition, forKey: kCATransition)
             }
-            navigationController.popToViewController(navigationController.viewControllers[navigationController.viewControllers.count - (numberOfScreens + 1)], animated: animated)
+            
+            let targetViewControllerIndex = navigationController.viewControllers.count - (numberOfScreens + 1)
+            let targetViewController = navigationController.viewControllers[targetViewControllerIndex]
+            
+            // Remove popped view controllers from liveRoutes
+            let poppedViewControllers = navigationController.viewControllers[(targetViewControllerIndex + 1)...]
+            liveRoutes.removeAll { poppedViewControllers.contains($0) }
+            
+            navigationController.popToViewController(targetViewController, animated: animated)
         }
     }
     
     public func remove(numberOfScreens: Int) {
         guard let navigationController = navigationController else { return }
         if numberOfScreens <= navigationController.viewControllers.count - 1 {
+            // Remove view controllers from the navigation stack
+            let removedViewControllers = navigationController.viewControllers[1...numberOfScreens]
+            liveRoutes.removeAll { removedViewControllers.contains($0) } // Remove from liveRoutes
             navigationController.viewControllers.removeSubrange(1...numberOfScreens)
         }
     }
     
     public func dismiss(animated: Bool = true, completion: (() -> Void)? = nil) {
         guard let presentedViewController = presentedViewController else { return }
+        liveRoutes.removeAll { $0 == presentedViewController } // Remove from live routes
         presentedViewController.dismiss(animated: animated, completion: completion)
     }
     
@@ -171,10 +190,17 @@ public class AppRouter {
     public func remove(types: [AnyClass], animated: Bool = true) {
         guard let navigationController = navigationController else { return }
         var viewControllers = navigationController.viewControllers
-        viewControllers.removeAll { (viewController) -> Bool in
-            let viewControllerType = type(of: viewController)
-            return types.contains(where: { $0 == viewControllerType })
+        let removedViewControllers = viewControllers.filter { viewController in
+            types.contains { $0 == type(of: viewController) }
         }
+        
+        // Remove filtered view controllers from liveRoutes
+        liveRoutes.removeAll { removedViewControllers.contains($0) }
+        
+        viewControllers.removeAll { viewController in
+            types.contains { $0 == type(of: viewController) }
+        }
+        
         navigationController.setViewControllers(viewControllers, animated: animated)
     }
     
@@ -183,6 +209,7 @@ public class AppRouter {
         childViewController.view.removeFromSuperview()
         childViewController.removeFromParent()
         nestedRouters[childViewController] = nil
+        liveRoutes.removeAll { $0 == childViewController } // Remove from liveRoutes
     }
     
     private func presentedViewController(_ viewController: UIViewController) -> UIViewController {

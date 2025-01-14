@@ -62,7 +62,7 @@
 		3DB694B92961BDED00EC8587 /* TestAddChildRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAddChildRoute.swift; sourceTree = "<group>"; };
 		3DB694BB2961BFE400EC8587 /* MockChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChildViewController.swift; sourceTree = "<group>"; };
 		"AppRouter::AppRouter::Product" /* AppRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"AppRouter::AppRouterTests::Product" /* AppRouterTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppRouterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"AppRouter::AppRouterTests::Product" /* AppRouterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = AppRouterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* Extensions+NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+NSObject.swift"; sourceTree = "<group>"; };
 		OBJ_11 /* NavigateType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateType.swift; sourceTree = "<group>"; };
 		OBJ_12 /* Routable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routable.swift; sourceTree = "<group>"; };
@@ -349,7 +349,7 @@
 				INFOPLIST_FILE = AppRouter.xcodeproj/AppRouter_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
@@ -377,7 +377,7 @@
 				INFOPLIST_FILE = AppRouter.xcodeproj/AppRouter_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
@@ -458,7 +458,7 @@
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = AppRouter.xcodeproj/AppRouterTests_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CFLAGS = "$(inherited)";
@@ -483,7 +483,7 @@
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = AppRouter.xcodeproj/AppRouterTests_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CFLAGS = "$(inherited)";
