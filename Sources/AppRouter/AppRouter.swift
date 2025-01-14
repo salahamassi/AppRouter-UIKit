@@ -13,6 +13,7 @@ public class AppRouter {
     public var canDuplicateViewControllers = true
     /// you must set this value in navigation controller delegate willShow viewController
     public var lastPushedViewController: UIViewController? = nil
+    private let nestedViewController: UIViewController?
     
     private(set) public var nestedRouters: [UIViewController: AppRouter] = [:]
     private(set) public var liveRoutes: [UIViewController] = [] // Keeps track of live routes
@@ -27,11 +28,11 @@ public class AppRouter {
             } else if let tabBarController = presentedViewController?.children.first(where: { $0 is UITabBarController }) as? UITabBarController,
                       let navigationController = tabBarController.selectedViewController as? UINavigationController {
                 return navigationController
-            } else if let navigationController = presentedViewController?.children.first(where: { $0 is UINavigationController }) as? UINavigationController {
+            } else if let navigationController = presentedViewController?.children.first(where: { $0 is UINavigationController  }) as? UINavigationController {
                 return navigationController
             } else if let navigationController =  presentedViewController?.children.first?.children.first(where: { $0 is UINavigationController }) as? UINavigationController {
                 return navigationController
-            } else if let navigationController = window.rootViewController as? UINavigationController{
+            } else if let navigationController = window.rootViewController as? UINavigationController {
                 return navigationController
             } else if let navigationController = window.rootViewController?.children.first(where: { $0 is UINavigationController }) as? UINavigationController {
                 return navigationController
@@ -42,18 +43,23 @@ public class AppRouter {
     }
     
     public var presentedViewController: UIViewController? {
-        get{
-            guard let rootViewController = window.rootViewController else { return nil }
-            return presentedViewController(rootViewController)
+        get {
+            if let nestedViewController = nestedViewController {
+                return nestedViewController
+            } else {
+                guard let rootViewController = window.rootViewController else { return nil }
+                return presentedViewController(rootViewController)
+            }
         }
     }
     
-    public init(window: UIWindow, rootViewController: UIViewController? = nil) {
+    public init(window: UIWindow, rootViewController: UIViewController? = nil, nestedRouter: Bool = false) {
         self.window = window
-        if let rootViewController = rootViewController{
+        if let rootViewController = rootViewController, !nestedRouter {
             window.rootViewController = rootViewController
             window.makeKeyAndVisible()
         }
+        self.nestedViewController = rootViewController
     }
     
     public func navigate(to route: Route, with params: [String: Any]?, completion: (() -> Void)?) {
@@ -94,7 +100,7 @@ public class AppRouter {
             ])
         }
         child.didMove(toParent: parent)
-        nestedRouters[child] = AppRouter(window: window, rootViewController: nil)
+        nestedRouters[child] = AppRouter(window: window, rootViewController: child, nestedRouter: true)
     }
     
     private func presentViewController(_ viewController: UIViewController, presentationStyle: UIModalPresentationStyle, transitioningDelegate: UIViewControllerTransitioningDelegate?, animated: Bool, completion: (() -> Void)?) {
