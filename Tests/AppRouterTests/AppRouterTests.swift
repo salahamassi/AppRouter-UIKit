@@ -25,6 +25,20 @@ final class AppRouterTests: XCTestCase {
         XCTAssertTrue(sut.window.rootViewController is MockViewController)
     }
     
+    func test_navigateWithRootWindowType_shouldCallCompletion() {
+        // given
+        let sut = makeSut()
+        let expectation = XCTestExpectation(description: "Completion should be called")
+
+        // when
+        sut.navigate(to: TestWindowRootRoute(), with: nil) {
+            expectation.fulfill()
+        }
+
+        // then
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
     func test_navigateWithPresentType_shouldEqualToMockViewController() {
         // given
         let sut = makeSut()

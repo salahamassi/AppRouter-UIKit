@@ -70,7 +70,7 @@ public class AppRouter {
         case .push:
             pushViewController(viewController, pushTransition: route.transition, animated: route.animated)
         case .windowRoot:
-            replaceWindowRoot(with: viewController, transition: route.transition)
+            replaceWindowRoot(with: viewController, transition: route.transition, completion: completion)
         case .addChild(let parent, let view, let safeArea, let frame):
             addViewController(viewController, to: parent, in: view, at: frame, safeArea)
         }
@@ -120,12 +120,25 @@ public class AppRouter {
         }
     }
     
-    private func replaceWindowRoot(with viewController: UIViewController, transition: CATransition? = nil) {
+    private func replaceWindowRoot(with viewController: UIViewController,
+                                   transition: CATransition? = nil,
+                                   completion: (() -> Void)? = nil) {
         if let transition = transition {
-            window.layer.add(transition, forKey: kCATransition)
-        }
-        window.rootViewController = viewController
-        window.makeKeyAndVisible()
+              CATransaction.begin()
+              CATransaction.setCompletionBlock {
+                  completion?()
+              }
+              window.layer.add(transition, forKey: kCATransition)
+              CATransaction.commit()
+          }
+
+          window.rootViewController = viewController
+          window.makeKeyAndVisible()
+
+          // If no transition, manually invoke the completion
+          if transition == nil {
+              completion?()
+          }
     }
     
     public func popViewController(popTransition: CATransition? = nil, animated: Bool = true) {
