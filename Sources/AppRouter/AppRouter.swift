@@ -13,7 +13,7 @@ public class AppRouter {
     public var canDuplicateViewControllers = true
     /// you must set this value in navigation controller delegate willShow viewController
     public var lastPushedViewController: UIViewController? = nil
-    private let nestedViewController: UIViewController?
+    private var nestedViewController: UIViewController?
     
     private(set) public var nestedRouters: [UIViewController: AppRouter] = [:]
     private(set) public var liveRoutes: [UIViewController] = [] // Keeps track of live routes
@@ -124,21 +124,21 @@ public class AppRouter {
                                    transition: CATransition? = nil,
                                    completion: (() -> Void)? = nil) {
         if let transition = transition {
-              CATransaction.begin()
-              CATransaction.setCompletionBlock {
-                  completion?()
-              }
-              window.layer.add(transition, forKey: kCATransition)
-              CATransaction.commit()
-          }
-
-          window.rootViewController = viewController
-          window.makeKeyAndVisible()
-
-          // If no transition, manually invoke the completion
-          if transition == nil {
-              completion?()
-          }
+            CATransaction.begin()
+            CATransaction.setCompletionBlock {
+                completion?()
+            }
+            window.layer.add(transition, forKey: kCATransition)
+            CATransaction.commit()
+        }
+        
+        window.rootViewController = viewController
+        window.makeKeyAndVisible()
+        self.nestedViewController = viewController
+        // If no transition, manually invoke the completion
+        if transition == nil {
+            completion?()
+        }
     }
     
     public func popViewController(popTransition: CATransition? = nil, animated: Bool = true) {
@@ -232,9 +232,9 @@ public class AppRouter {
     }
     
     private func presentedViewController(_ viewController: UIViewController) -> UIViewController {
-        if let mPresentedViewController = viewController.presentedViewController{
+        if let mPresentedViewController = viewController.presentedViewController {
             return presentedViewController(mPresentedViewController)
-        }else{
+        } else {
             return viewController
         }
     }
@@ -245,9 +245,9 @@ public class AppRouter {
             let children = navigationController.children.map(\.className)
             if children.last?.className == viewController.className {
                 return false // view controller already in the stack
-            }else if let lastPushedViewController = lastPushedViewController, type(of: lastPushedViewController) == type(of: viewController){
+            } else if let lastPushedViewController = lastPushedViewController, type(of: lastPushedViewController) == type(of: viewController) {
                 return false // in case the view controller not in the stack but lastPushedViewController type eqault to viewController type
-            }else {
+            } else {
                 lastPushedViewController = viewController
                 return true // we can push the new viewController safely
             }
