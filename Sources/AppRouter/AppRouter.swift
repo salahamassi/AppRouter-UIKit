@@ -134,7 +134,6 @@ public class AppRouter {
         
         window.rootViewController = viewController
         window.makeKeyAndVisible()
-        self.nestedViewController = viewController
         // If no transition, manually invoke the completion
         if transition == nil {
             completion?()
