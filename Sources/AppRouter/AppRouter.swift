@@ -59,7 +59,7 @@ public class AppRouter {
             window.rootViewController = rootViewController
             window.makeKeyAndVisible()
         }
-        self.nestedViewController = rootViewController
+        self.nestedViewController = nestedRouter ? rootViewController : nil
     }
     
     public func navigate(to route: Route, with params: [String: Any]?, completion: (() -> Void)?) {
