@@ -7,29 +7,7 @@
 
 A lightweight, type-safe navigation framework for UIKit. Born from real production challenges at [WINCH](https://winchksa.com), AppRouter eliminates navigation boilerplate and enforces clean composition patterns.
 
-## The Problem
-
-Navigation in UIKit apps often looks like this:
-
-```swift
-let vc = ServiceLocationViewController()
-let presenter = ServiceLocationPresenter(output: WeakRef(vc))
-let dataSource = AppDataSource()
-let useCase = ServiceLocationUseCase(dataSource: dataSource, output: presenter, selectedLocationType: type)
-vc.startLocationUpdate = useCase.startLocationUpdate
-vc.confirmLocateServiceAction = useCase.confirmLocateServiceAction
-navigationController?.pushViewController(vc, animated: true)
-```
-
-Composition logic scattered everywhere. Duplicate code. No consistency.
-
-## The Solution
-
-```swift
-router?.navigate(to: .serviceLocation(params: ["selectedLocationType": type]))
-```
-
-One line. All composition hidden behind a `Route` protocol.
+<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/e77aea4c-3227-40ff-8bac-5983ec040e59" />
 
 ## Installation
 
@@ -229,6 +207,30 @@ router?.navigate(to: .pinCode(mobile: "+966501234567"))
 ```
 Executed 24 tests, with 0 failures in 7.6 seconds
 ```
+
+## The Problem
+
+Navigation in UIKit apps often looks like this:
+
+```swift
+let vc = ServiceLocationViewController()
+let presenter = ServiceLocationPresenter(output: WeakRef(vc))
+let dataSource = AppDataSource()
+let useCase = ServiceLocationUseCase(dataSource: dataSource, output: presenter, selectedLocationType: type)
+vc.startLocationUpdate = useCase.startLocationUpdate
+vc.confirmLocateServiceAction = useCase.confirmLocateServiceAction
+navigationController?.pushViewController(vc, animated: true)
+```
+
+Composition logic scattered everywhere. Duplicate code. No consistency.
+
+## The Solution
+
+```swift
+router?.navigate(to: .serviceLocation(params: ["selectedLocationType": type]))
+```
+
+One line. All composition hidden behind a `Route` protocol.
 
 ## Why AppRouter?
 
